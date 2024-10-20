@@ -1,0 +1,48 @@
+/* choices-page.css */
+
+/* Style for the ChoicesPage container */
+.choices-page {
+    text-align: center;
+    background-color:whitesmoke;
+    padding: 20px;
+    color:black;
+    font-size: larger;
+}
+  
+/* Style for the h1 header */
+.choices-page h1 {
+    font-size: 24px;
+    color: black;
+    margin-bottom: 20px;
+}
+  
+/* Style for the choices-tab container */
+.choices-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style for individual choice links */
+.choices {
+    font-size: 18px;
+    background-color: #007BFF;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.heading {
+    font-size: 140px;
+    color: black
+}
+
+.choices:hover {
+    background-color: #005daa;
+    border: 1px solid #ddd;
+    color: black;
+}

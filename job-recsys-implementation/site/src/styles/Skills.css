@@ -1,0 +1,28 @@
+.skills-content {
+    padding: 10px;
+    height: auto;
+  }
+  
+  .skills-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .skills-content input {
+    display: block;
+    margin: 5px 0;
+  }
+  
+  .skills-content button {
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .skills-content button:hover {
+    background-color: #0073e6;
+  }
+  

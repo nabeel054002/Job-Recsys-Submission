@@ -1,0 +1,63 @@
+/* App.css */
+
+/* Style for the main App container */
+.App {
+  text-align: center;
+  background-color: #6dbaf9;
+  padding: 20px;
+  height: 100vh;
+}
+
+/* Style for the h1 header */
+.App h1 {
+  font-size: 24px;
+  color: whitesmoke;
+  margin-bottom: 20px;
+}
+
+/* Style for the Router container */
+.RouterContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding:5%;
+}
+
+.RoutesContainer {
+  display: flex;
+  margin: 15px;
+}
+
+/* Style for individual components */
+.ComponentContainer {
+  width: 60%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 200px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 10px;
+}
+
+/* Style for the JwtComponent */
+.JwtComponent {
+  font-size: 180px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 20px;
+}
+/* footer.css */
+
+/* Style for the footer container */
+.footer {
+  background-color: #389aeb; /* Background color */
+  color: #fff; /* Text color */
+  padding: 20px 0; /* Top and bottom padding */
+  text-align: center; /* Center align text */
+  height: 5vw;
+}
+
+/* Style for the footer text */
+.footer-text {
+  font-size: 14px;
+}
