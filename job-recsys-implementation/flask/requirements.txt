@@ -1,0 +1,8 @@
+flask
+jsonify
+flask_cors
+jwt
+bcrypt
+PyJWT
+flask_pymongo
+pyspark

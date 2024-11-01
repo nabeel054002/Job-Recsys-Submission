@@ -9,6 +9,7 @@ function Signup() {
     // Here, you can implement code to send the username and password to your server for registration.
     // You may want to use the Fetch API or an HTTP library like Axios to make a POST request to your backend.
     // For the sake of this example, we'll just log the user input:
+    console.log('health check', await fetch('http://localhost:5000'));
     const response = await fetch('http://localhost:5000/api/signup', {
         method: 'POST',  // Specify the HTTP method as 'POST'
         headers: {
@@ -20,7 +21,9 @@ function Signup() {
             password: password,
             user_type: "candidate"
         }), 
+        mode: 'cors'
     })
+    console.log('response', response)
     const token = await response.json()
     if(response.status!==200){
       console.log('problem')

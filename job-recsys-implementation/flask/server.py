@@ -1,50 +1,24 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import jwt, bcrypt, time
 from jwt.exceptions import ExpiredSignatureError, DecodeError
 from flask_pymongo import PyMongo
 from job_recommendation import similar_jobs
 from pymongo.errors import DuplicateKeyError
-import pandas as pd
-from pyspark.sql import SparkSession
 
 # Flask app and MongoDB setup
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/Team-8"
-CORS(app)
 mongo = PyMongo(app)
 CORS(app)
+cors = CORS(app, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
 
 SECRET_KEY = 'yourSecretKey'
 JWT_EXPIRATION_TIME = 3600  # Token expires in 1 hour
-
-# Initialize Spark session
-spark = SparkSession.builder.appName("JobRecommendation").getOrCreate()
-
-# Global variable to store job DataFrame
-job_descriptions_df = None
-
-def load_job_descriptions():
-    """Load job descriptions into a Spark DataFrame at server start."""
-    global job_descriptions_df
-    data = list(mongo.db.sampled_jobs.find({}, projection={
-        "_id": 1,
-        "Benefits": 1,
-        "Job Description": 1,
-        "Job Id": 1,
-        "Responsibilities": 1,
-        "Role": 1,
-        "skills": 1,
-        "Company": 1,
-        "job_embedding": 1
-    }))
-    for doc in data:
-        doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
-    pandas_df = pd.DataFrame(data)
-    job_descriptions_df = spark.createDataFrame(pandas_df)
-    print("Done loading job descriptions to a spark df")
-
-load_job_descriptions()  # Load job descriptions when the server starts
 
 # Helper functions
 def generate_token(username):
@@ -66,6 +40,7 @@ def get_collection(user_type):
     return mongo.db.candidates if user_type == 'candidate' else mongo.db.sampled_jobs
 
 # Routes
+@cross_origin
 @app.route('/', methods=['GET'])
 def health_check():
     return "Hi", 200
@@ -184,10 +159,9 @@ def recommend_jobs():
     if not candidate_skills:
         return jsonify({'message': 'Skills not provided'}), 400
 
-    # Use the preloaded job descriptions DataFrame
-    recommended_jobs = similar_jobs(candidate_skills, job_descriptions_df)
+    recommended_jobs = similar_jobs(candidate_skills, mongo.db.sampled_jobs)
     return jsonify({'recommended_jobs': recommended_jobs}), 200
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(port=5000)

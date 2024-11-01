@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Company from "./components/Company";
 import Candidate from "./components/CandidatePage";
@@ -9,6 +9,13 @@ import Footer from "./components/Footer"
 import './App.css';
 
 function App() {
+  const logServerHealthCheckResponse = async () => {
+    const response = await fetch('http://localhost:5000')
+    console.log('servedr health check: ', response)
+  }
+  useEffect(() => {
+    logServerHealthCheckResponse()
+  }, [])
   return (
     <div>
       <div className="App">

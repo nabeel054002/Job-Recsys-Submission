@@ -12,7 +12,7 @@ from bson import ObjectId
 # MongoDB connection setup
 mongo_client = MongoClient("mongodb://localhost:27017/")
 db = mongo_client["Team-8"]
-companies_collection = db["companies"]
+sampled_jobs_collection = db["sampled_jobs"]
 
 # Initialize Spark session (only once)
 spark = SparkSession.builder \
@@ -20,7 +20,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Fetch all documents from MongoDB
-data = list(companies_collection.find({}, projection={
+data = list(sampled_jobs_collection.find({}, projection={
     "_id": 1,
     "Benefits": 1,
     "Job Description": 1,
@@ -32,7 +32,7 @@ data = list(companies_collection.find({}, projection={
 }))
 
 # Sample 35% of the data
-sample_size = int(0.05*len(data))
+sample_size = int(len(data))
 sampled_data = random.sample(data, sample_size)
 
 # Convert '_id' to string in sampled data
@@ -89,11 +89,12 @@ embeddings = model.encode(job_descriptions_list)
 embeddings = [embedding.tolist() for embedding in embeddings]
 
 # Store the embeddings back into MongoDB
+# dimensions of the embedding
 for doc_id, embedding in zip(doc_ids, embeddings):
     if isinstance(doc_id, str):
         doc_id = ObjectId(doc_id)  # Convert string to ObjectId
 
-    companies_collection.update_one(
+    sampled_jobs_collection.update_one(
         {"_id": doc_id},
         {"$set": {"job_embedding": embedding}}
     )
