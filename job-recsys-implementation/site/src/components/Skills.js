@@ -8,7 +8,7 @@ const YourSkillsContent = ({ username }) => {
   const [isEditingSoftSkills, setIsEditingSoftSkills] = useState(false);
 
   const getSkills = async () => {
-    const techSkillsResponse = await fetch('http://localhost:5000/get-skills', {
+    const techSkillsResponse = await fetch('http://localhost:5050/get-skills', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ const YourSkillsContent = ({ username }) => {
         skillType: 'tech_skills',
       }),
     });
-    const softSkillsResponse = await fetch('http://localhost:5000/get-skills', {
+    const softSkillsResponse = await fetch('http://localhost:5050/get-skills', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const YourSkillsContent = ({ username }) => {
   };
 
   const addSkills = async (skills, skillType) => {
-    const response = await fetch('http://localhost:5000/add-skills', {
+    const response = await fetch('http://localhost:5050/add-skills', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

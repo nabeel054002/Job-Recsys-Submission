@@ -11,7 +11,7 @@ from bson import ObjectId
 
 # MongoDB connection setup
 mongo_client = MongoClient("mongodb://localhost:27017/")
-db = mongo_client["Team-8"]
+db = mongo_client["Job-Recsys"]
 sampled_jobs_collection = db["sampled_jobs"]
 
 # Initialize Spark session (only once)

@@ -1,4 +1,4 @@
-from job_recommendation import similar_jobs
+from utils.job_recommendation import similar_jobs
 from models.job_model import JobModel
 
 class JobService:

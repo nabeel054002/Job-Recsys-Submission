@@ -10,7 +10,7 @@ from pyspark.sql import SparkSession
 
 # Flask app and MongoDB setup
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/Team-8"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/Job-Recsys"
 CORS(app)
 mongo = PyMongo(app)
 CORS(app)
@@ -190,4 +190,4 @@ def recommend_jobs():
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5050)

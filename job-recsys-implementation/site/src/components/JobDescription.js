@@ -7,7 +7,7 @@ function JobDescription({ username }) {
 
   // Function to fetch the job description from the server
   const fetchJobDescription = async () => {
-    const response = await fetch("http://localhost:5000/get-job-description", {
+    const response = await fetch("http://localhost:5050/get-job-description", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ function JobDescription({ username }) {
 
   // Function to save the job description to the server
   const saveJobDescription = async () => {
-    const response = await fetch("http://localhost:5000/save-job-description", {
+    const response = await fetch("http://localhost:5050/save-job-description", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

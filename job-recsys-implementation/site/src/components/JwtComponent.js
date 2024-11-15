@@ -4,7 +4,7 @@
     function JwtComponent() {
         const [user, setUser] = React.useState('')
         const getUser = async (token) => {
-            const response = await fetch('http://localhost:5000/decode_jwt', {
+            const response = await fetch('http://localhost:5050/decode_jwt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

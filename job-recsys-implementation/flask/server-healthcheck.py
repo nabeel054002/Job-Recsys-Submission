@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 
 def health_check():
-    url = 'http://localhost:5000'  # Update if needed
+    url = 'http://localhost:5050'  # Update if needed
     try:
         response = requests.get(url)
         if response.status_code == 200:

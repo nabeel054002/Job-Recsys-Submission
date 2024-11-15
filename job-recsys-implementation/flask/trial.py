@@ -9,7 +9,7 @@ from flask_cors import cross_origin
 
 app = Flask(__name__)
 # Replace the existing MongoDB configuration
-app.config["MONGO_URI"] = "mongodb://localhost:27017/Team-8"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/Job-Recsys"
 
 # Initialize MongoDB for candidates and sampled_jobs
 mongo = PyMongo(app)

@@ -7,7 +7,7 @@ from controllers.user_controller import user_bp
 
 # Flask app and MongoDB setup
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/Team-8"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/Job-Recsys"
 mongo = PyMongo(app)
 CORS(app)
 
@@ -18,4 +18,4 @@ app.register_blueprint(user_bp)
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5050)

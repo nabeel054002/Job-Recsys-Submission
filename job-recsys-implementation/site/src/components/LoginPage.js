@@ -8,7 +8,7 @@ const LoginPage = () => {
   const handleLogin = async () => {
     console.log('username', username, 'password', password)
     // Send a POST request to the server with the username and password
-    const response = await fetch('http://localhost:5000/api/login', {
+    const response = await fetch('http://localhost:5050/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

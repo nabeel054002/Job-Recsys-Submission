@@ -19,7 +19,7 @@ function RecommendJobs ({
     const [recommendedJobs, setRecommendedJobs] = useState([]);
   
     const getSkills = async () => {
-      const techSkillsResponse = await fetch('http://localhost:5000/get-skills', {
+      const techSkillsResponse = await fetch('http://localhost:5050/get-skills', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function RecommendJobs ({
           skillType: 'tech_skills',
         }),
       });
-      const softSkillsResponse = await fetch('http://localhost:5000/get-skills', {
+      const softSkillsResponse = await fetch('http://localhost:5050/get-skills', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function RecommendJobs ({
 
     const getRecommendedJobs = async (techSkills) => {
         const skillsStr = techSkills.join(', ');
-        const response = await fetch('http://localhost:5000/recommend-jobs', {
+        const response = await fetch('http://localhost:5050/recommend-jobs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

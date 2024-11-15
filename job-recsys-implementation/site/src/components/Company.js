@@ -10,7 +10,7 @@ function Signup() {
     // For the sake of this example, we'll just log the user input:
     console.log('Username:', username);
     console.log('Password:', password);
-    const response = await fetch('http://localhost:5000/api/signup', {
+    const response = await fetch('http://localhost:5050/api/signup', {
         method: 'POST',  // Specify the HTTP method as 'POST'
         headers: {
             'Content-Type': 'application/json',  // Set the content type to JSON
