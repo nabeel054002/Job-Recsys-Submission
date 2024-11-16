@@ -1,40 +1,28 @@
 import React, { useState } from 'react';
 import '../styles/Signup.css'
+import { signupApi } from '../api';
 
 function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignup = async () => {
-    // Here, you can implement code to send the username and password to your server for registration.
-    // You may want to use the Fetch API or an HTTP library like Axios to make a POST request to your backend.
-    // For the sake of this example, we'll just log the user input:
-    console.log('health check', await fetch('http://localhost:5050'));
-    const response = await fetch('http://localhost:5050/api/signup', {
-        method: 'POST',  // Specify the HTTP method as 'POST'
-        headers: {
-            'Content-Type': 'application/json',  // Set the content type to JSON
-            // You may need to include additional headers like authentication tokens
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-            user_type: "candidate"
-        }), 
-        mode: 'cors'
-    })
-    console.log('response', response)
-    const token = await response.json()
-    if(response.status!==200){
-      console.log('problem')
-      window.alert('Signup again, ' + token.message)
-    } else {
-      console.log('token', token)
-      localStorage.setItem('token', token.token);
-      // Redirect the user to another route (e.g., dashboard)
-      window.location.href = '/'+token.token;
+    try {
+        // Call the signup API function
+        const tokenData = await signupApi(username, password, 'candidate');
+
+        // If the response contains the token, save it to localStorage
+        if (tokenData && tokenData.token) {
+            localStorage.setItem('token', tokenData.token);
+            window.location.href = `/${tokenData.token}`;
+        }
+    } catch (error) {
+        // If an error occurs, display an error message
+        console.error('Error during signup:', error.message);
+        setErrorMessage(error.message);
+        window.alert('Signup failed: ' + error.message);
     }
-  };
+};
 
   return (
     <div className="signup-container">

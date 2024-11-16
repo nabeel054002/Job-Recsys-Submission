@@ -1,34 +1,31 @@
-    import React from 'react';
-    import Panel from './Panel'
+import React, { useState, useEffect } from 'react';
+import Panel from './Panel';
+import { getUserFromToken } from '../api';  // Import the API function
 
-    function JwtComponent() {
-        const [user, setUser] = React.useState('')
-        const getUser = async (token) => {
-            const response = await fetch('http://localhost:5050/decode_jwt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    jwt_token: token
-                })
-            })
-            const username = await response.json();
-            console.log('username', username)
-            setUser(username.username)
-        }
+function JwtComponent() {
+  const [user, setUser] = useState('');
 
-        React.useEffect(()=> {
-            const token = window.location.href.substring(22);
-            getUser(token)
-        }, [])
-        return (
-        <div>
-            {
-                user ? <Panel username={user}/> : 'Login Again'
-            }
-        </div>
-        );
+  // Fetch user from token
+  const fetchUser = async (token) => {
+    try {
+      const username = await getUserFromToken(token);  // Use the extracted API function
+      setUser(username);
+    } catch (error) {
+      console.log('Error getting user:', error.message);
     }
+  };
 
-    export default JwtComponent;
+  // Decode token and fetch user on component mount
+  useEffect(() => {
+    const token = window.location.href.substring(22);
+    fetchUser(token);  // Call the fetchUser function with the token
+  }, []);  // Empty dependency array to run only once on mount
+
+  return (
+    <div>
+      {user ? <Panel username={user} /> : 'Login Again'}
+    </div>
+  );
+}
+
+export default JwtComponent;

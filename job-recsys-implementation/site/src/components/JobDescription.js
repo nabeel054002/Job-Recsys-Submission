@@ -1,67 +1,68 @@
 import React, { useState, useEffect } from "react";
 import '../styles/Skills.css';
+import { fetchJobDescriptionApi, saveJobDescriptionApi } from "../api";
 
 function JobDescription({ username }) {
   const [jobDescription, setJobDescription] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   // Function to fetch the job description from the server
-  const fetchJobDescription = async () => {
-    const response = await fetch("http://localhost:5050/get-job-description", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    });
-    const data = await response.json();
-    setJobDescription(data.jobDescription || "");
-  };
-
-  // Function to save the job description to the server
-  const saveJobDescription = async () => {
-    const response = await fetch("http://localhost:5050/save-job-description", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        jobDescription: jobDescription,
-      }),
-    });
-
-    if (response.ok) {
-      setIsEditing(false);
+  const getJobDescription = async () => {
+    try {
+      const data = await fetchJobDescriptionApi(username);
+      setJobDescription(data.jobDescription || "");
+    } catch (error) {
+      console.error("Error fetching job description:", error.message);
     }
   };
 
+  // Fetch the job description when the component loads
   useEffect(() => {
-    fetchJobDescription();
+    getJobDescription();
   }, [username]);
+
+  // Handle saving the job description
+  const handleSaveJobDescription = async () => {
+    try {
+      const result = await saveJobDescriptionApi(username, jobDescription);
+      if (result) {
+        setIsEditing(false);  // Exit edit mode
+      }
+    } catch (error) {
+      console.error("Error saving job description:", error.message);
+    }
+  };
+
+  // Toggle the editing state
+  const handleToggleEditing = () => {
+    setIsEditing((prevState) => !prevState);
+  };
+
+  // Render the JSX content
+  const renderJobDescription = () => {
+    return isEditing ? (
+      <div className="skills-edit">
+        <textarea
+          className="skills-textarea"
+          rows="4"
+          cols="50"
+          value={jobDescription}
+          onChange={(e) => setJobDescription(e.target.value)}
+        ></textarea>
+        <button className="skills-button" onClick={handleSaveJobDescription}>Save</button>
+      </div>
+    ) : (
+      <div className="skills-view">
+        <p className="skills-text">{jobDescription}</p>
+        <button className="skills-button" onClick={handleToggleEditing}>Edit</button>
+      </div>
+    );
+  };
 
   return (
     <div className="skills-content">
       <h3 className="skills-heading">Job Description</h3>
-      {isEditing ? (
-        <div className="skills-edit">
-          <textarea
-            className="skills-textarea"
-            rows="4"
-            cols="50"
-            value={jobDescription}
-            onChange={(e) => setJobDescription(e.target.value)}
-          ></textarea>
-          <button className="skills-button" onClick={saveJobDescription}>Save</button>
-        </div>
-      ) : (
-        <div className="skills-view">
-          <p className="skills-text">{jobDescription}</p>
-          <button className="skills-button" onClick={() => setIsEditing(true)}>Edit</button>
-        </div>
-      )}
+      {renderJobDescription()}
     </div>
   );
 }

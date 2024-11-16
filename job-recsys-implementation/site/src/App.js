@@ -9,13 +9,6 @@ import Footer from "./components/Footer"
 import './App.css';
 
 function App() {
-  const logServerHealthCheckResponse = async () => {
-    const response = await fetch('http://localhost:5050')
-    console.log('servedr health check: ', response)
-  }
-  useEffect(() => {
-    logServerHealthCheckResponse()
-  }, [])
   return (
     <div>
       <div className="App">
