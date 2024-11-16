@@ -1,8 +1,8 @@
 from models.user_model import UserModel
 
 class UserService:
-    def __init__(self):
-        self.user_model = UserModel()
+    def __init__(self, mongo):
+        self.user_model = UserModel(mongo)
 
     def get_skills(self, username, skill_type):
         return self.user_model.get_skills(username, skill_type)

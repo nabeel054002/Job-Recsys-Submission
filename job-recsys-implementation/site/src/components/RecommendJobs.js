@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react"
+import { getSkillsApi, recommendJobsApi } from "../api";
 
 function RecommendedJob({ job }) {
   return (
@@ -19,29 +20,8 @@ function RecommendJobs ({
     const [recommendedJobs, setRecommendedJobs] = useState([]);
   
     const getSkills = async () => {
-      const techSkillsResponse = await fetch('http://localhost:5050/get-skills', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          skillType: 'tech_skills',
-        }),
-      });
-      const softSkillsResponse = await fetch('http://localhost:5050/get-skills', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          skillType: 'soft_skills',
-        }),
-      });
-  
-      const techSkillsData = await techSkillsResponse.json();
-      const softSkillsData = await softSkillsResponse.json();
+      const techSkillsData = await getSkillsApi(username, 'tech_skills');
+      const softSkillsData = await getSkillsApi(username, 'soft_skills') 
   
       setTechSkills(techSkillsData.skills || []);
       setSoftSkills(softSkillsData.skills || []);
@@ -50,19 +30,7 @@ function RecommendJobs ({
 
     const getRecommendedJobs = async (techSkills) => {
         const skillsStr = techSkills.join(', ');
-        const response = await fetch('http://localhost:5050/recommend-jobs', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                skills: skillsStr
-            })
-        })
-        //console.log('response',response)
-        const jsonRes = await response.json();
-        //console.log('jsonRes', jsonRes.recommended_jobs)
-        //console.log('jsonRes values', Object.values(jsonRes.recommended_jobs))
+        const jsonRes = await recommendJobsApi(skillsStr)
         setRecommendedJobs(Object.values(jsonRes.recommended_jobs))
     }
 

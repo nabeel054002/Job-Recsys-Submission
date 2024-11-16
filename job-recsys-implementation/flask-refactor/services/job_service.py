@@ -2,8 +2,8 @@ from utils.job_recommendation import similar_jobs
 from models.job_model import JobModel
 
 class JobService:
-    def __init__(self):
-        self.job_model = JobModel()
+    def __init__(self, mongo):
+        self.job_model = JobModel(mongo)
 
     def recommend_jobs(self, candidate_skills):
         if not candidate_skills:

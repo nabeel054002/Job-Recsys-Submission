@@ -22,12 +22,12 @@ function Panel ({
         console.log('response', username)
         const u = await response.json();
         console.log('u',  u)
-        setUserType(u.user_type)
+        setUserType(u[0].user_type)
     }
 
     React.useEffect(() => {
         getUserType()
-    })
+    }, [])
     return (
         <div>
             {userType==='candidate'? (

@@ -3,3 +3,35 @@ node_modules/
 
 # Ignore compiler-generated data folder inside job-recsys-implementation
 job-recsys-implementation/data/
+
+# Exclude __pycache__ directories
+**/**/__pycache__/
+
+# Exclude .cfg files at all levels
+*.cfg
+
+# Exclude virtual environment files
+flask/
+flask/bin/
+flask/pyvenv.cfg
+
+# Common Python ignores
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.venv
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+*.bak
+
+# IDE specific ignores
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db

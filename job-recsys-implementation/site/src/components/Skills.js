@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Skills.css';
+import { fetchSkillsApi, addSkillsApi } from '../api';
 
 const YourSkillsContent = ({ username }) => {
   const [techSkills, setTechSkills] = useState([]);
@@ -8,49 +9,16 @@ const YourSkillsContent = ({ username }) => {
   const [isEditingSoftSkills, setIsEditingSoftSkills] = useState(false);
 
   const getSkills = async () => {
-    const techSkillsResponse = await fetch('http://localhost:5050/get-skills', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        skillType: 'tech_skills',
-      }),
-    });
-    const softSkillsResponse = await fetch('http://localhost:5050/get-skills', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        skillType: 'soft_skills',
-      }),
-    });
+    const techSkillsData = await fetchSkillsApi(username, 'tech_skills');
+    const softSkillsData = await fetchSkillsApi(username, 'soft_skills');
 
-    const techSkillsData = await techSkillsResponse.json();
-    const softSkillsData = await softSkillsResponse.json();
+    console.log('techskillsdata', techSkillsData)
 
     setTechSkills(techSkillsData.skills || []);
     setSoftSkills(softSkillsData.skills || []);
 
     setIsEditingTechSkills(!techSkillsData.skills || techSkillsData.skills.length === 0);
     setIsEditingSoftSkills(!softSkillsData.skills || softSkillsData.skills.length === 0);
-  };
-
-  const addSkills = async (skills, skillType) => {
-    const response = await fetch('http://localhost:5050/add-skills', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        skills: skills,
-        skillType: skillType,
-      }),
-    });
   };
 
   useEffect(() => {
@@ -81,10 +49,10 @@ const YourSkillsContent = ({ username }) => {
 
   const handleSaveSkills = async (skillType) => {
     if (skillType === 'tech_skills') {
-      await addSkills(techSkills, 'tech_skills');
+      await addSkillsApi(username, techSkills, skillType) 
       setIsEditingTechSkills(false);
     } else {
-      await addSkills(softSkills, 'soft_skills');
+      await addSkillsApi(username, softSkills, skillType) 
       setIsEditingSoftSkills(false);
     }
   };

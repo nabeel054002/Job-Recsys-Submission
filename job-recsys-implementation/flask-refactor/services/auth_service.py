@@ -1,6 +1,7 @@
 import jwt
 import bcrypt
 import time
+from flask import jsonify
 from jwt.exceptions import ExpiredSignatureError, DecodeError
 from pymongo.errors import DuplicateKeyError
 from models.user_model import UserModel
@@ -8,8 +9,9 @@ from utils.jwt_util import generate_token
 from utils.password_util import hash_password, verify_password
 
 class AuthService:
-    def __init__(self):
-        self.user_model = UserModel()
+    def __init__(self, mongo):
+        self.user_model = UserModel(mongo)
+        self.mongo = mongo # not needed maybe
 
     def login(self, username, password):
         user = self.user_model.get_user(username)
