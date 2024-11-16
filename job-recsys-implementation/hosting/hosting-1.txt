@@ -1,0 +1,5 @@
+first we have to create our own vpc in aws 
+
+https://medium.com/@shefaliaj7/9c8192acce2e
+
+following her blog series
